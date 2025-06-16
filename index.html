@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact & To-Do List</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ffecd2, #fcb69f, #ff9a9e);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      display: flex;
+      width: 90%;
+      max-width: 1000px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .form-section, .todo-section {
+      flex: 1;
+      padding: 30px;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #ff4e50;
+    }
+
+    /* Contact Form */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #ff6f61;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #ff3b3f;
+    }
+
+    /* To-Do List */
+    #todo-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      background-color: #ffe0e6;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li.completed {
+      text-decoration: line-through;
+      background-color: #d1ffd1;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #ff4e50;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Contact Form Section -->
+    <div class="form-section">
+      <h2>Contact Form</h2>
+      <form id="contact-form">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" required>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea rows="4" required></textarea>
+        </div>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
+    <!-- To-Do List Section -->
+    <div class="todo-section">
+      <h2>To-Do List</h2>
+      <input type="text" id="todo-input" placeholder="Add a new task...">
+      <ul id="todo-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Contact Form Submission (no backend, just alert)
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Thank you for contacting us!');
+      this.reset();
+    });
+
+    // To-Do List Logic
+    const input = document.getElementById('todo-input');
+    const list = document.getElementById('todo-list');
+
+    input.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && input.value.trim() !== '') {
+        const li = document.createElement('li');
+        li.textContent = input.value;
+
+        li.addEventListener('click', () => {
+          li.classList.toggle('completed');
+        });
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '✖';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          list.removeChild(li);
+        });
+
+        li.appendChild(deleteBtn);
+        list.appendChild(li);
+        input.value = '';
+      }
+    });
+  </script>
+
+</body>
+</html>
